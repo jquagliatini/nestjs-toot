@@ -4,6 +4,9 @@
   "type": "module",
   "main": "./dist/messages.js",
   "types": "./src/messages.ts",
+  "scripts": {
+    "test": "vitest run"
+  },
   "devDependencies": {
     "cc.jqgl.internal.tsconfig": "workspace:*",
     "typescript": "catalog:",

@@ -8,7 +8,8 @@
     "clean": "rm -rf dist",
     "prebuild": "pnpm run clean",
     "build": "tsc -p .",
-    "dev": "tsc --watch -p ."
+    "dev": "tsc --watch -p .",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@nestjs/common": "catalog:",

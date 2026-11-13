@@ -28,7 +28,7 @@
     "db:create": "pnpm drizzle-kit generate --name",
     "beforedb:mig:deploy": "pnpm build",
     "db:deploy": "pnpm drizzle-kit migrate",
-    "test": "vitest"
+    "test": "vitest run"
   },
   "dependencies": {
     "@jqgl.cc/config": "workspace:cc.jqgl.internal.config@*",

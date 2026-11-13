@@ -15,7 +15,8 @@
   "scripts": {
     "dev": "tsc -p . --watch",
     "prebuild": "rm -rf ./dist",
-    "build": "tsc -p ./tsconfig.build.json"
+    "build": "tsc -p ./tsconfig.build.json",
+    "test": "vitest run"
   },
   "devDependencies": {
     "@nestjs/common": "catalog:",

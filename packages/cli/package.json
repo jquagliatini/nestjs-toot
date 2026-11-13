@@ -1,0 +1,11 @@
+{
+  "name": "cc.jqgl.cli",
+  "version": "0.0.1",
+  "bin": "./src/cli.js",
+  "type": "module",
+  "dependencies": {
+    "cc.jqgl.app": "workspace:*",
+    "deepmerge": "4.3.1",
+    "zod": "catalog:"
+  }
+}

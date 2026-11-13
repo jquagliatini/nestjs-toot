@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "app": {
+      "type": "object",
+      "properties": {
+        "baseUrl": {
+          "type": "string",
+          "pattern": "[^/]$"
+        },
+        "secret": {
+          "type": "string",
+          "minLength": 12
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "port": {
+          "default": 3000,
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "baseUrl",
+        "secret",
+        "name",
+        "port"
+      ],
+      "additionalProperties": false
+    },
+    "database": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "url"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "app",
+    "database"
+  ],
+  "additionalProperties": {}
+}

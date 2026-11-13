@@ -1,0 +1,12 @@
+{
+  "$schema": "./config.schema.json",
+  "app": {
+    "port": 3000,
+    "name": "toots",
+    "baseUrl": "http://localhost:3000",
+    "secret": "7fd701b9-f61e-46bb-8742-9a17633c094c"
+  },
+  "database": {
+    "url": "postgresql://postgres:password@localhost:5432/toots"
+  }
+}

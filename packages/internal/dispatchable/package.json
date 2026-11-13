@@ -1,0 +1,32 @@
+{
+  "name": "cc.jqgl.internal.dispatchable",
+  "version": "0.0.0",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/exports.js",
+      "type": "./src/exports.ts"
+    },
+    "./transports/event-emitter": {
+      "import": "./dist/transports/event-emitter.js",
+      "type": "./src/transports/event-emitter.ts"
+    }
+  },
+  "scripts": {
+    "dev": "tsc -p . --watch",
+    "prebuild": "rm -rf ./dist",
+    "build": "tsc -p ./tsconfig.build.json"
+  },
+  "devDependencies": {
+    "@nestjs/common": "catalog:",
+    "@nestjs/core": "catalog:",
+    "@nestjs/testing": "catalog:",
+    "@types/node": "catalog:",
+    "cc.jqgl.internal.tsconfig": "workspace:*",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "catalog:",
+    "@nestjs/core": "catalog:"
+  }
+}

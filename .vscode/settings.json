@@ -1,0 +1,10 @@
+{
+  "cSpell.words": ["dispatchable", "dispatchables", "humanid", "jqgl", "jsonifiable"],
+  "[typescript][javascript][json]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+      "source.fixAll.oxc": "always"
+    }
+  }
+}

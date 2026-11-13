@@ -1,0 +1,24 @@
+{
+  "name": "cc.jqgl.internal.config",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/config.module.js",
+  "types": "dist/config.module.d.ts",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "prebuild": "pnpm run clean",
+    "build": "tsc -p .",
+    "dev": "tsc --watch -p ."
+  },
+  "devDependencies": {
+    "@nestjs/common": "catalog:",
+    "@nestjs/core": "catalog:",
+    "@nestjs/testing": "12.3.2",
+    "cc.jqgl.internal.tsconfig": "workspace:*",
+    "vitest": "catalog:"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "catalog:",
+    "@nestjs/core": "catalog:"
+  }
+}

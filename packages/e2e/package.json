@@ -1,0 +1,25 @@
+{
+  "name": "e2e",
+  "version": "0.0.1",
+  "type": "module",
+  "imports": {
+    "#/*.js": "./src/*.js"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@faker-js/faker": "10.6.0",
+    "@jqgl.cc/app": "workspace:cc.jqgl.app@*",
+    "@jqgl.cc/app.sdk": "workspace:cc.jqgl.internal.sdk@*",
+    "@nestjs/testing": "catalog:",
+    "@types/node": "catalog:",
+    "@types/pg": "8.23.1",
+    "cc.jqgl.internal.tsconfig": "workspace:*",
+    "drizzle-orm": "1.0.0-rc.5",
+    "pg": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "zod": "catalog:"
+  }
+}

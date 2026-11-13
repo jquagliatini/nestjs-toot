@@ -1,0 +1,29 @@
+{
+  "name": "cc.jqgl.internal.sdk",
+  "version": "0.0.0",
+  "main": "./dist/sdk.js",
+  "types": "./src/sdk.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/sdk.js",
+      "types": "./src/sdk.ts"
+    },
+    "./client": {
+      "import": "./dist/client/index.js",
+      "types": "./src/client/index.ts"
+    }
+  },
+  "scripts": {
+    "clean": "rm -rf ./dist",
+    "prebuild": "pnpm run clean",
+    "build": "tsc -p .",
+    "preopenapi:generate": "rm -rf ./dist",
+    "openapi:generate": "openapi-ts",
+    "postopenapi:generate": "pnpm run build"
+  },
+  "devDependencies": {
+    "@hey-api/openapi-ts": "0.99.0",
+    "cc.jqgl.internal.tsconfig": "workspace:*",
+    "typescript": "6.0.3"
+  }
+}

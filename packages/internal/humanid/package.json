@@ -1,0 +1,19 @@
+{
+  "name": "cc.jqgl.internal.humanid",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/humanid.js",
+  "types": "./src/humanid.ts",
+  "scripts": {
+    "prebuild": "rm -rf ./dist",
+    "dev": "tsc -p . --watch",
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "cc.jqgl.internal.tsconfig": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

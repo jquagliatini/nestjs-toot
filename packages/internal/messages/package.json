@@ -1,0 +1,12 @@
+{
+  "name": "cc.jqgl.internal.messages",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./dist/messages.js",
+  "types": "./src/messages.ts",
+  "devDependencies": {
+    "cc.jqgl.internal.tsconfig": "workspace:*",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  }
+}

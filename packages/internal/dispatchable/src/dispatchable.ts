@@ -7,7 +7,11 @@ type Jsonifiable =
     };
 
 const RETURN_TYPE = Symbol();
-export type Dispatchable<N extends string, P extends Jsonifiable, R extends Promise<unknown>> = {
+export type Dispatchable<
+  N extends PropertyKey,
+  P extends Jsonifiable,
+  R extends Promise<unknown>,
+> = {
   id: string;
   name: N;
   payload: P;
@@ -40,9 +44,7 @@ export function makeDispatchable<const N extends string>(name: N): DispatchableB
 export function dispatchables<O extends AbstractDispatchableDictionary>(
   options: O,
 ): {
-  [K in Extract<keyof O, string>]: O[K] extends (
-    b: any,
-  ) => (p: any) => Dispatchable<string, infer P, infer R>
+  [K in keyof O]: O[K] extends (b: any) => (p: any) => Dispatchable<string, infer P, infer R>
     ? ((payload: P) => Dispatchable<K, P, R>) & {
         dispatchableName: K;
         $type: Dispatchable<K, P, R>;

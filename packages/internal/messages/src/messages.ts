@@ -1,4 +1,4 @@
-type Message<Name extends string, Payload> = {
+type Message<Name extends PropertyKey, Payload> = {
   id: string;
   name: Name;
   payload: Payload;
@@ -11,7 +11,7 @@ type MessageHelper = {
 type AbstractMessageList = Record<string, unknown>;
 
 type MatchInput<M extends AbstractMessageList> = {
-  [K in Extract<keyof M, string>]: (payload: M[K]) => unknown;
+  [K in keyof M]: (payload: M[K]) => unknown;
 };
 
 type MatchResult<I extends Record<string, (p: any) => unknown>> =
@@ -20,8 +20,8 @@ type MatchResult<I extends Record<string, (p: any) => unknown>> =
     : ReturnType<I[keyof I]>[];
 
 type KnownMessage<I extends AbstractMessageList> = {
-  [K in Extract<keyof I, string>]: Message<K, I[K]>;
-}[Extract<keyof I, string>];
+  [K in keyof I]: Message<K, I[K]>;
+}[keyof I];
 
 // Readable
 class MessageCollection<M extends AbstractMessageList> implements Iterable<KnownMessage<M>> {
@@ -37,9 +37,10 @@ class MessageCollection<M extends AbstractMessageList> implements Iterable<Known
     let hasPromise = false;
     const results: unknown[] = [];
     for (const message of this) {
-      if (!(message.name in matches)) throw new Error(`no handler defined for "${message.name}"`);
+      if (!(message.name in matches))
+        throw new Error(`no handler defined for "${String(message.name)}"`);
 
-      const result = matches[message.name]?.(message.payload);
+      const result = matches[message.name]?.(message.payload as any);
       hasPromise ||= result instanceof Promise;
 
       results.push(result);
@@ -50,7 +51,7 @@ class MessageCollection<M extends AbstractMessageList> implements Iterable<Known
 }
 
 type Pushable<M extends AbstractMessageList> = {
-  [K in Extract<keyof M, string>]: (payload: M[K]) => void;
+  [K in keyof M]: (payload: M[K]) => void;
 };
 
 // Writable

@@ -21,7 +21,7 @@ export class ConfigModule {
     const config = configSchema.parse(userConfig);
     return {
       module: ConfigModule,
-      imports: [InternalConfigModule.forRoot(config)],
+      imports: [InternalConfigModule.forRoot({ config })],
       exports: [InternalConfigModule],
     };
   }

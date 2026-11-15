@@ -9,7 +9,7 @@ export const authCommands = dispatchables({
   signup: (c) =>
     c
       .withPayload<{ email: string; password: string; username: string }>()
-      .withResult<{ token: string; expiresAt: Date }>(),
+      .withResult<{ id: string; token: string; expiresAt: Date }>(),
 
   rehydrateToken: (c) => c.withPayload<{ token: string }>().withResult<{ id: string }>(),
 });

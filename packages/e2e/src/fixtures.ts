@@ -1,14 +1,14 @@
 import assert from "node:assert";
 
 import { faker } from "@faker-js/faker";
-import { type Auth, type Health, Sdk } from "@jqgl.cc/app.sdk";
+import { Sdk } from "@jqgl.cc/app.sdk";
 import { createClient, createConfig } from "@jqgl.cc/app.sdk/client";
 import { test as base, inject } from "vitest";
 
 export const test = base
   .extend("baseUrl", () => `http://localhost:${inject("port")}`)
   .extend("anonymous", ({ baseUrl }) => {
-    const sdk: { health: Health; auth: Auth } = new Sdk({
+    const sdk = new Sdk({
       client: createClient(createConfig({ baseUrl })),
     });
 
@@ -16,7 +16,9 @@ export const test = base
   })
   .extend("user", async ({ anonymous, baseUrl }) => {
     const username = faker.internet.username();
-    const email = faker.internet.email();
+    const email = faker.internet.email({
+      lastName: `${username.toLowerCase()}+${crypto.randomUUID()}`,
+    });
     const password =
       faker.string.alphanumeric({
         casing: "mixed",
@@ -28,17 +30,28 @@ export const test = base
     });
 
     assert.ok(response?.status === 201, `could not create a new user`);
+    assert.ok(data, `could not retrieve user data from sign-up endpoint`);
 
     const sdk = new Sdk({
       client: createClient(
         createConfig({
           baseUrl,
-          headers: { authorization: `bearer ${data!.token}` },
+          headers: { authorization: `bearer ${data.token}` },
         }),
       ),
     });
 
-    return { email, username, password, sdk, token: data! };
+    const { id, ...token } = data;
+    return {
+      id,
+      email,
+      username,
+      password,
+
+      token: { ...token, expiresAt: new Date(token.expiresAt) },
+
+      sdk,
+    };
   });
 
 export { describe, expect, expectTypeOf } from "vitest";

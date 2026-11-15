@@ -3,7 +3,7 @@
 
 import { client } from './client.ts';
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client/index.ts';
-import type { GetHealthData, GetHealthResponses, PostApiAuthV1SigninData, PostApiAuthV1SigninResponses, PostApiAuthV1SignupData, PostApiAuthV1SignupResponses, PostApiTootsV1Data, PostApiTootsV1Responses } from './types.ts';
+import type { DeleteApiTootsV1ByIdLikesData, DeleteApiTootsV1ByIdLikesResponses, GetApiAuthV1IntrospectData, GetApiAuthV1IntrospectResponses, GetApiTootsV1ByIdCommentsData, GetApiTootsV1ByIdCommentsResponses, GetApiTootsV1ByIdData, GetApiTootsV1ByIdResponses, GetApiTootsV1Data, GetApiTootsV1Responses, GetHealthData, GetHealthResponses, PostApiAuthV1SigninData, PostApiAuthV1SigninResponses, PostApiAuthV1SignupData, PostApiAuthV1SignupResponses, PostApiTootsV1ByIdCommentsData, PostApiTootsV1ByIdCommentsResponses, PostApiTootsV1Data, PostApiTootsV1Responses, PutApiTootsV1ByIdLikesData, PutApiTootsV1ByIdLikesResponses } from './types.ts';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -76,9 +76,21 @@ export class Auth extends HeyApiClient {
             }
         });
     }
+    
+    public introspect<ThrowOnError extends boolean = false>(options?: Options<GetApiAuthV1IntrospectData, ThrowOnError>): RequestResult<GetApiAuthV1IntrospectResponses, unknown, ThrowOnError> {
+        return (options?.client ?? this.client).get<GetApiAuthV1IntrospectResponses, unknown, ThrowOnError>({
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/auth/v1/introspect',
+            ...options
+        });
+    }
 }
 
 export class Toots extends HeyApiClient {
+    public listToots<ThrowOnError extends boolean = false>(options?: Options<GetApiTootsV1Data, ThrowOnError>): RequestResult<GetApiTootsV1Responses, unknown, ThrowOnError> {
+        return (options?.client ?? this.client).get<GetApiTootsV1Responses, unknown, ThrowOnError>({ url: '/api/toots/v1', ...options });
+    }
+    
     public createToot<ThrowOnError extends boolean = false>(options: Options<PostApiTootsV1Data, ThrowOnError>): RequestResult<PostApiTootsV1Responses, unknown, ThrowOnError> {
         return (options.client ?? this.client).post<PostApiTootsV1Responses, unknown, ThrowOnError>({
             security: [{ scheme: 'bearer', type: 'http' }],
@@ -88,6 +100,42 @@ export class Toots extends HeyApiClient {
                 'Content-Type': 'application/json',
                 ...options.headers
             }
+        });
+    }
+    
+    public detailToot<ThrowOnError extends boolean = false>(options: Options<GetApiTootsV1ByIdData, ThrowOnError>): RequestResult<GetApiTootsV1ByIdResponses, unknown, ThrowOnError> {
+        return (options.client ?? this.client).get<GetApiTootsV1ByIdResponses, unknown, ThrowOnError>({ url: '/api/toots/v1/{id}', ...options });
+    }
+    
+    public listComments<ThrowOnError extends boolean = false>(options: Options<GetApiTootsV1ByIdCommentsData, ThrowOnError>): RequestResult<GetApiTootsV1ByIdCommentsResponses, unknown, ThrowOnError> {
+        return (options.client ?? this.client).get<GetApiTootsV1ByIdCommentsResponses, unknown, ThrowOnError>({ url: '/api/toots/v1/{id}/comments', ...options });
+    }
+    
+    public comment<ThrowOnError extends boolean = false>(options: Options<PostApiTootsV1ByIdCommentsData, ThrowOnError>): RequestResult<PostApiTootsV1ByIdCommentsResponses, unknown, ThrowOnError> {
+        return (options.client ?? this.client).post<PostApiTootsV1ByIdCommentsResponses, unknown, ThrowOnError>({
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/toots/v1/{id}/comments',
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+    }
+    
+    public unlike<ThrowOnError extends boolean = false>(options: Options<DeleteApiTootsV1ByIdLikesData, ThrowOnError>): RequestResult<DeleteApiTootsV1ByIdLikesResponses, unknown, ThrowOnError> {
+        return (options.client ?? this.client).delete<DeleteApiTootsV1ByIdLikesResponses, unknown, ThrowOnError>({
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/toots/v1/{id}/likes',
+            ...options
+        });
+    }
+    
+    public like<ThrowOnError extends boolean = false>(options: Options<PutApiTootsV1ByIdLikesData, ThrowOnError>): RequestResult<PutApiTootsV1ByIdLikesResponses, unknown, ThrowOnError> {
+        return (options.client ?? this.client).put<PutApiTootsV1ByIdLikesResponses, unknown, ThrowOnError>({
+            security: [{ scheme: 'bearer', type: 'http' }],
+            url: '/api/toots/v1/{id}/likes',
+            ...options
         });
     }
 }

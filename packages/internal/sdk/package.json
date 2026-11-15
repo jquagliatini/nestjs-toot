@@ -15,11 +15,10 @@
   },
   "scripts": {
     "clean": "rm -rf ./dist",
-    "prebuild": "pnpm run clean",
-    "build": "tsc -p .",
-    "preopenapi:generate": "rm -rf ./dist",
+    "preopenapi:generate": "pnpm run clean",
     "openapi:generate": "openapi-ts",
-    "postopenapi:generate": "pnpm run build"
+    "prebuild": "pnpm run openapi:generate",
+    "build": "tsc -p ."
   },
   "devDependencies": {
     "@hey-api/openapi-ts": "0.99.0",

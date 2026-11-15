@@ -19,5 +19,13 @@ export const AuthSessionDtoSchema = z.object({
 
 export type AuthSessionDto = z.input<typeof AuthSessionDtoSchema>;
 
+export const AuthSessionSignedUpDto = AuthSessionDtoSchema.extend({
+  id: z.string(),
+});
+export type AuthSessionSignedUpDto = z.input<typeof AuthSessionSignedUpDto>;
+
 export const AuthSigninDtoSchema = z.object({ email: z.email(), password: z.string() });
 export type AuthSigninDto = z.input<typeof AuthSigninDtoSchema>;
+
+export const AuthIntrospectionDtoSchema = z.object({ id: z.string(), username: z.string() });
+export type AuthIntrospectionDto = z.input<typeof AuthIntrospectionDtoSchema>;

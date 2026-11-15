@@ -4,6 +4,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -13,11 +14,15 @@ import { ApiBody, ApiHeader, ApiOkResponse, ApiResponse, ApiSecurity } from "@ne
 
 import { assertIsDefined } from "#/utils.js";
 
+import { ApiAuthenticated, ParamAuthUser } from "./auth.decorators.js";
 import { AuthService } from "./auth.service.js";
 import {
+  AuthIntrospectionDtoSchema,
   AuthSessionDtoSchema,
+  AuthSessionSignedUpDto,
   AuthSigninDtoSchema,
   AuthSignupDtoSchema,
+  type AuthIntrospectionDto,
   type AuthSessionDto,
   type AuthSigninDto,
   type AuthSignupDto,
@@ -28,11 +33,11 @@ export class AuthController {
   constructor(private readonly auth: AuthService) {}
 
   @Post("/signup")
-  @ApiOkResponse({ standardSchema: AuthSessionDtoSchema })
+  @ApiOkResponse({ standardSchema: AuthSessionSignedUpDto })
   signup(
     @Body({ schema: AuthSignupDtoSchema })
     body: AuthSignupDto,
-  ): Promise<AuthSessionDto> {
+  ): Promise<AuthSessionSignedUpDto> {
     return this.auth.signup(body);
   }
 
@@ -68,5 +73,12 @@ export class AuthController {
     }
 
     return this.auth.signin({ email, password });
+  }
+
+  @Get("introspect")
+  @ApiAuthenticated()
+  @ApiResponse({ status: HttpStatus.OK, standardSchema: AuthIntrospectionDtoSchema })
+  introspect(@ParamAuthUser() user: { id: string }): Promise<AuthIntrospectionDto> {
+    return this.auth.introspect(user.id);
   }
 }

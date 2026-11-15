@@ -27,7 +27,11 @@ export class AppModule {
     );
 
     return withOpenApi(
-      app.enableShutdownHooks().useGlobalPipes(new StandardSchemaValidationPipe()),
+      app.enableShutdownHooks().useGlobalPipes(
+        new StandardSchemaValidationPipe({
+          transform: true,
+        }),
+      ),
     );
   }
 

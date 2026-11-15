@@ -1,0 +1,189 @@
+{
+  "type": "diff",
+  "version": "9",
+  "dialect": "postgres",
+  "id": "fb4feca2-59ab-42dd-b3bc-e132b2a0ad1b",
+  "prevIds": [
+    "c13d12de-9e4c-40d8-89dc-eec6ea6ea8d0"
+  ],
+  "footprints": [
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "article_likes"
+      ],
+      "writes": [
+        "s|tbl|public.article_likes",
+        "n|tbl|public.article_likes",
+        "e|tbl|public.article_likes",
+        "n|rel|public.article_likes",
+        "n|type|public.article_likes",
+        "n|rel|public.article_likes_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "article_likes"
+      ],
+      "writes": [
+        "s|fk|public.article_likes.article_likes_article_id_articles_id_fkey",
+        "n|fk|public.article_likes.article_likes_article_id_articles_id_fkey",
+        "e|fk|public.article_likes.article_likes_article_id_articles_id_fkey",
+        "n|con|public.article_likes.article_likes_article_id_articles_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.article_likes",
+        "n|sch|public",
+        "n|tbl|public.articles",
+        "n|sch|public",
+        "n|col|public.article_likes.article_id",
+        "n|col|public.articles.id",
+        "e|uniqueness|public.articles.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "article_likes"
+      ],
+      "writes": [
+        "s|fk|public.article_likes.article_likes_author_id_users_id_fkey",
+        "n|fk|public.article_likes.article_likes_author_id_users_id_fkey",
+        "e|fk|public.article_likes.article_likes_author_id_users_id_fkey",
+        "n|con|public.article_likes.article_likes_author_id_users_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.article_likes",
+        "n|sch|public",
+        "n|tbl|public.users",
+        "n|sch|public",
+        "n|col|public.article_likes.author_id",
+        "n|col|public.users.id",
+        "e|uniqueness|public.users.id"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "name": "article_likes",
+        "isRlsEnabled": false,
+        "entityType": "tables"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "article_likes",
+        "name": "created_at",
+        "type": "timestamp",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": "now()",
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "article_likes",
+        "name": "article_id",
+        "type": "uuid",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "article_likes",
+        "name": "author_id",
+        "type": "uuid",
+        "typeSchema": null,
+        "notNull": true,
+        "dimensions": 0,
+        "default": null,
+        "generated": null,
+        "identity": null,
+        "entityType": "columns"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "article_likes",
+        "name": "article_likes_article_id_articles_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "article_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "articles",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "article_likes",
+        "name": "article_likes_author_id_users_id_fkey",
+        "nameExplicit": false,
+        "columns": [
+          "author_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "users",
+        "columnsTo": [
+          "id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "article_likes",
+        "name": "article_likes_pkey",
+        "columns": [
+          "article_id",
+          "author_id"
+        ],
+        "nameExplicit": false,
+        "entityType": "pks"
+      }
+    }
+  ]
+}

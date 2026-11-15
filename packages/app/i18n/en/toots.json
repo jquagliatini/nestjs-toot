@@ -1,0 +1,5 @@
+{
+  "errors": {
+    "emptyComment": "a comment can't be empty"
+  }
+}

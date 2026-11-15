@@ -25,6 +25,6 @@ export class SignupCommandHandler {
     const session = user.startSession({ now: this.clock.now() });
     await this.repository.persist(user);
 
-    return this.signer.sign(session);
+    return { ...this.signer.sign(session), id: user.id };
   }
 }

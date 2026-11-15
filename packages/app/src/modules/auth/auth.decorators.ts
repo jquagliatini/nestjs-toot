@@ -3,53 +3,59 @@ import {
   Injectable,
   Logger,
   NotFoundException,
+  Param,
   type PipeTransform,
-  UsePipes,
 } from "@nestjs/common";
 import { ModuleRef } from "@nestjs/core";
 import { ApiBearerAuth } from "@nestjs/swagger";
 import { ClsService } from "nestjs-cls";
 
-import { assertIsDefined } from "#/utils.js";
-
 import { AuthService } from "./auth.service.js";
 
 @Injectable()
-export class RehydrateUserPipe implements PipeTransform {
+export class RehydrateUserPipe implements PipeTransform<void, Promise<{ id: string }>> {
   private readonly logger = new Logger(RehydrateUserPipe.name);
 
   constructor(private readonly modules: ModuleRef) {}
 
-  async transform() {
-    const context = this.modules.get(ClsService, { strict: false });
+  async transform(): Promise<{ id: string }> {
+    const cls = this.modules.get(ClsService, { strict: false });
     const auth = this.modules.get(AuthService, { strict: false });
 
-    const token = context.get("token");
+    const token = cls.get("token");
     if (!token) {
       this.logger.warn(`could not access the token from the local context`);
       throw new NotFoundException();
     }
 
-    const { id: userId } = await auth.internalRehydrateToken(token);
+    const { id } = await auth.internalRehydrateToken(token);
+    return { id };
+  }
+}
 
-    context.set("userId", userId);
+@Injectable()
+export class OptionallyRehydrateUserPipe implements PipeTransform<
+  void,
+  Promise<{ id: string } | undefined>
+> {
+  constructor(private readonly modules: ModuleRef) {}
+
+  async transform(): Promise<{ id: string } | undefined> {
+    const pipe = this.modules.get(RehydrateUserPipe);
+    (pipe as any).logger = { warn: () => {} };
+
+    return pipe.transform().catch(() => undefined);
   }
 }
 
 export function ApiAuthenticated(): MethodDecorator {
-  return applyDecorators(ApiBearerAuth("bearer"), UsePipes(RehydrateUserPipe));
-}
-
-@Injectable()
-export class RetrieveUserPipe implements PipeTransform {
-  constructor(private readonly context: ClsService) {}
-
-  async transform() {
-    const userId = this.context.get("userId");
-    return { id: assertIsDefined(userId) };
-  }
+  return applyDecorators(ApiBearerAuth("bearer"));
 }
 
 export function ParamAuthUser(): ParameterDecorator {
-  return UsePipes(RetrieveUserPipe);
+  return Param(RehydrateUserPipe);
+}
+
+export function ParamOptionalAuthUser(): ParameterDecorator {
+  return Param(OptionallyRehydrateUserPipe);
 }

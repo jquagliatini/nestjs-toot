@@ -5,7 +5,20 @@ type IdDefinition = {
   [id: string]: typeof HUMANID | IdDefinition;
 };
 
-export type Id<Brand extends string> = string & { [HUMANID]: Brand };
+type HumanId = typeof HUMANID;
+type ExtractBrands<Def> = {
+  [K in Extract<keyof Def, string>]: Def[K] extends HumanId
+    ? K
+    : Def[K] extends IdDefinition
+      ? `${K}/${ExtractBrands<Def[K]>}`
+      : never;
+}[Extract<keyof Def, string>];
+
+export interface Registry {}
+
+type KnownBrand<R = Registry> = R extends { ids: Ids<infer Def> } ? ExtractBrands<Def> : string;
+
+export type Id<Brand extends KnownBrand> = string & { [HUMANID]: Brand };
 function makeId<const Brand extends string>(value?: string): Id<Brand> {
   return (value || crypto.randomUUID()) as Id<Brand>;
 }

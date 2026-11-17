@@ -1,5 +1,13 @@
 {
-  "cSpell.words": ["dispatchable", "dispatchables", "humanid", "jqgl", "jsonifiable"],
+  "cSpell.words": [
+    "dispatchable",
+    "dispatchables",
+    "humanid",
+    "jqgl",
+    "jsonifiable",
+    "opentelemetry",
+    "prometheus"
+  ],
   "[typescript][javascript][json]": {
     "editor.defaultFormatter": "oxc.oxc-vscode",
     "editor.formatOnSave": true,

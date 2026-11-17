@@ -1,10 +1,12 @@
 import type { Server } from "node:http";
 
 import { Config } from "@jqgl.cc/config";
+import { observe } from "@jqgl.cc/otel";
 import { Logger, Module, StandardSchemaValidationPipe, type DynamicModule } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import { type NestNodeApplication, NodeAdapter } from "@nestjs/platform-node";
 
+import pkg from "../package.json" with { type: "json" };
 import { ApplicationModule } from "./modules/application.module.js";
 import type { UserProvidedConfig } from "./modules/framework/config.js";
 import { FrameworkModule } from "./modules/framework/framework.module.js";
@@ -35,7 +37,15 @@ export class AppModule {
     );
   }
 
-  static async listen(config: UserProvidedConfig): Promise<void> {
+  static listen(config: UserProvidedConfig): Promise<void> {
+    return observe({
+      name: pkg.name,
+      version: pkg.version,
+      app: () => this.internalListen(config),
+    });
+  }
+
+  private static async internalListen(config: UserProvidedConfig): Promise<void> {
     const app = await this.create(config);
     await app.listen(app.get(Config).app.port);
 

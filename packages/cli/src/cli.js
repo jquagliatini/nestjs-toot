@@ -42,6 +42,10 @@ async function startCommand(options = {}) {
   const config = deepmerge.all(configs);
 
   process.env.TZ = "Etc/UTC";
+
+  const { register } = await import("node:module");
+  register(`@opentelemetry/instrumentation/hook.mjs`, import.meta.resolve("."));
+
   await import("cc.jqgl.app").then(async ({ AppModule }) => AppModule.listen(config));
 }
 

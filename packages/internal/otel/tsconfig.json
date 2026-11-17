@@ -1,0 +1,11 @@
+{
+  "extends": "./node_modules/cc.jqgl.internal.tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "tsBuildInfoFile": "./dist/.tsbuildinfo",
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": false
+  }
+}

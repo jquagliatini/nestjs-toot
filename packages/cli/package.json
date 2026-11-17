@@ -4,6 +4,7 @@
   "bin": "./src/cli.js",
   "type": "module",
   "dependencies": {
+    "@opentelemetry/instrumentation": "0.301.0",
     "cc.jqgl.app": "workspace:*",
     "deepmerge": "4.3.1",
     "zod": "catalog:"

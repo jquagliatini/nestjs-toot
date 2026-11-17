@@ -1,4 +1,5 @@
 import { InjectableHandler } from "@jqgl.cc/dispatchable";
+import { Transactional } from "@nestjs-cls/transactional";
 import { NotFoundException } from "@nestjs/common";
 import { eq } from "drizzle-orm";
 
@@ -11,6 +12,7 @@ import { tootQueries } from "./toot.query-bus.js";
 export class DetailTootQueryHandler {
   constructor(private readonly db: Db) {}
 
+  @Transactional()
   async handle(
     query: typeof tootQueries.DetailToot.$payload,
   ): typeof tootQueries.DetailToot.$result {
@@ -46,7 +48,7 @@ export class DetailTootQueryHandler {
       eq(articleComments.articleId, query.id),
     );
 
-    const userLiked = toot.likes.some((l) => l.authorId === query.userId);
+    const userLiked = (toot.likes ?? []).some((l) => l.authorId === query.userId);
     return {
       ...toot,
       connectedUser: query.userId

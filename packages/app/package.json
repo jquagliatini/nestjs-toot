@@ -35,6 +35,8 @@
     "@jqgl.cc/dispatchable": "workspace:cc.jqgl.internal.dispatchable@*",
     "@jqgl.cc/humanid": "workspace:cc.jqgl.internal.humanid@*",
     "@jqgl.cc/messages": "workspace:cc.jqgl.internal.messages@*",
+    "@jqgl.cc/otel": "workspace:cc.jqgl.internal.otel@*",
+    "@kubiks/otel-drizzle": "2.1.0",
     "@nestjs-cls/transactional": "4.0.2",
     "@nestjs-cls/transactional-adapter-drizzle-orm": "2.0.2",
     "@nestjs/common": "catalog:",
@@ -48,10 +50,12 @@
     "@nestjs/resilience": "0.0.3",
     "@nestjs/storage": "0.0.4",
     "@nestjs/swagger": "12.0.5",
+    "@opentelemetry/api": "1.10.0",
     "@vitest/coverage-v8": "5.1.0",
     "drizzle-orm": "1.0.0-rc.5",
     "nestjs-cls": "7.0.2",
     "pg": "8.23.1",
+    "rxjs": "7.8.2",
     "zod": "catalog:"
   },
   "devDependencies": {

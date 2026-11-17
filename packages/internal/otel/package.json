@@ -1,0 +1,30 @@
+{
+  "name": "cc.jqgl.internal.otel",
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./dist/otel.js",
+  "types": "./src/otel.ts",
+  "scripts": {
+    "build": "tsc -p ."
+  },
+  "dependencies": {
+    "@opentelemetry/api": "1.10.0",
+    "@opentelemetry/context-async-hooks": "3.1.0",
+    "@opentelemetry/core": "3.1.0",
+    "@opentelemetry/exporter-metrics-otlp-http": "0.301.0",
+    "@opentelemetry/exporter-prometheus": "0.301.0",
+    "@opentelemetry/exporter-trace-otlp-http": "0.301.0",
+    "@opentelemetry/instrumentation": "0.301.0",
+    "@opentelemetry/instrumentation-http": "0.301.0",
+    "@opentelemetry/instrumentation-undici": "0.35.0",
+    "@opentelemetry/resources": "3.1.0",
+    "@opentelemetry/sdk-metrics": "3.1.0",
+    "@opentelemetry/sdk-node": "0.301.0",
+    "@opentelemetry/sdk-trace-base": "2.12.0",
+    "@opentelemetry/semantic-conventions": "1.45.0"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "cc.jqgl.internal.tsconfig": "workspace:*"
+  }
+}

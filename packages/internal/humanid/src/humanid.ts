@@ -19,13 +19,15 @@ export interface Registry {}
 type KnownBrand<R = Registry> = R extends { ids: Ids<infer Def> } ? ExtractBrands<Def> : string;
 
 export type Id<Brand extends KnownBrand> = string & { [HUMANID]: Brand };
-function makeId<const Brand extends string>(value?: string): Id<Brand> {
+function makeId<const Brand extends KnownBrand>(value?: string): Id<Brand> {
   return (value || crypto.randomUUID()) as Id<Brand>;
 }
 
-type IdFactory<Brand extends string> = ((value?: string) => Id<Brand>) & {
-  $type: Id<Brand>;
-};
+type IdFactory<Brand extends string> = Brand extends KnownBrand
+  ? ((value?: string) => Id<Brand>) & {
+      $type: Id<Brand>;
+    }
+  : never;
 
 type Concat<Id extends string, Prefix extends string = ""> = Prefix extends ""
   ? Id

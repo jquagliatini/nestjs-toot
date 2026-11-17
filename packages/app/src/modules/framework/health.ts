@@ -1,6 +1,6 @@
 import { Controller, Get, Module } from "@nestjs/common";
 import { Timeout, type Duration } from "@nestjs/resilience";
-import { ApiOkResponse } from "@nestjs/swagger";
+import { ApiExcludeController, ApiOkResponse } from "@nestjs/swagger";
 import { sql } from "drizzle-orm";
 import { z } from "zod";
 
@@ -9,6 +9,7 @@ import { Db } from "./database/schema.js";
 const HealthDtoSchema = z.object({ up: z.boolean(), db: z.boolean() }).meta({ name: "HealthDto" });
 
 @Controller("/_health")
+@ApiExcludeController()
 class HealthController {
   constructor(private readonly db: Db) {}
 

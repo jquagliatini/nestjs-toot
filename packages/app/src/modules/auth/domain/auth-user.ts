@@ -1,3 +1,4 @@
+import type { Id } from "@jqgl.cc/humanid";
 import { defineMessages } from "@jqgl.cc/messages";
 
 import { IDS } from "#/ids.js";
@@ -13,15 +14,15 @@ export const AuthenticationFailed = InvalidInputException(`auth.errors.authentic
 export class AuthUser {
   private readonly _messages = defineMessages((h) => ({
     UserCreated: h.withPayload<{
-      id: typeof IDS.auth.user.$type;
+      id: Id<"auth/user">;
       username: string;
       email: string;
       password: string;
     }>(),
 
     SessionStarted: h.withPayload<{
-      id: typeof IDS.auth.session.$type;
-      userId: typeof IDS.auth.user.$type;
+      id: Id<"auth/session">;
+      userId: Id<"auth/user">;
       createdAt: Date;
       expiresAt: Date;
     }>(),

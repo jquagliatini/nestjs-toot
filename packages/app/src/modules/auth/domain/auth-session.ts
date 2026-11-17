@@ -1,3 +1,5 @@
+import type { Id } from "@jqgl.cc/humanid";
+
 import { IDS } from "#/ids.js";
 import { InternalException } from "#/modules/framework/errors.js";
 import { time } from "#/utils.js";
@@ -15,7 +17,7 @@ export class AuthSession {
     this.expiresAt = AuthSession.expirationDate(this.createdAt);
   }
 
-  static from(props: { id: typeof IDS.auth.session.$type; createdAt: Date; now: Date }) {
+  static from(props: { id: Id<"auth/session">; createdAt: Date; now: Date }) {
     const expirationDate = AuthSession.expirationDate(props.createdAt);
     if (props.now.getTime() >= expirationDate.getTime()) {
       throw new ExpiredSession();

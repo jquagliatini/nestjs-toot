@@ -1,3 +1,4 @@
+import assert from "node:assert";
 import type { Server } from "node:http";
 
 import { Config } from "@jqgl.cc/config";
@@ -49,6 +50,10 @@ export class AppModule {
     const app = await this.create(config);
     await app.listen(app.get(Config).app.port);
 
-    new Logger(AppModule.name).log(`server started on ${app.getHttpServer().address()}`);
+    const address = app.getHttpServer().address();
+    assert.ok(address);
+
+    const addressMessage = typeof address === "string" ? `:${address}` : `:${address.port}`;
+    new Logger(AppModule.name).log(`server started on ${addressMessage}`);
   }
 }

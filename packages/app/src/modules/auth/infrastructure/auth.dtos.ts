@@ -5,8 +5,8 @@ import { datetimeCodec } from "#/utils.js";
 export const AuthSignupDtoSchema = z
   .object({
     email: z.email(),
-    password: z.string(),
-    username: z.string().trim().nonempty(),
+    password: z.string().trim().min(1).max(1_000),
+    username: z.string().trim().min(1).max(1_000),
   })
   .meta({ name: "AuthSessionDto" });
 

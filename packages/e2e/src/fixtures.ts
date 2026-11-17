@@ -1,4 +1,5 @@
 import assert from "node:assert";
+import { inspect } from "node:util";
 
 import { faker } from "@faker-js/faker";
 import { Sdk } from "@jqgl.cc/app.sdk";
@@ -23,13 +24,13 @@ export const test = base
       faker.string.alphanumeric({
         casing: "mixed",
         length: 20,
-      }) + "$";
+      }) + "$Ab1";
 
-    const { response, data } = await anonymous.sdk.auth.signup({
+    const { response, data, error } = await anonymous.sdk.auth.signup({
       body: { email, password, username },
     });
 
-    assert.ok(response?.status === 201, `could not create a new user`);
+    assert.ok(response?.status === 201, `could not create a new user: ${inspect(error)}`);
     assert.ok(data, `could not retrieve user data from sign-up endpoint`);
 
     const sdk = new Sdk({

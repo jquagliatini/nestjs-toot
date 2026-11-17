@@ -17,7 +17,6 @@
     "clean": "rm -rf ./dist",
     "preopenapi:generate": "pnpm run clean",
     "openapi:generate": "openapi-ts",
-    "prebuild": "pnpm run openapi:generate",
     "build": "tsc -p ."
   },
   "devDependencies": {

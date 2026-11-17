@@ -100,4 +100,26 @@ test.describe("given an existing toot", () => {
 
     expect(detailedToot.likesCount).toBe(1);
   });
+
+  test(`unlikes a toot`, async ({ user, expect }) => {
+    await user.sdk.toots.like({ path: { id: toot.id } });
+    const detailedToot = await user.sdk.toots
+      .detailToot({ path: { id: toot.id } })
+      .then(({ data }) => {
+        assert.ok(data);
+        return data;
+      });
+
+    expect(detailedToot.likesCount).toBe(1);
+
+    await user.sdk.toots.unlike({ path: { id: toot.id } });
+    const updatedToot = await user.sdk.toots
+      .detailToot({ path: { id: toot.id } })
+      .then(({ data }) => {
+        assert.ok(data);
+        return data;
+      });
+
+    expect(updatedToot.likesCount).toBe(0);
+  });
 });

@@ -34,6 +34,13 @@ test(`creates a toot`, async ({ user, expect }) => {
   expect(detailedToot?.content).toBe(`this is a toot`);
 });
 
+test(`anonymous can't create a toot`, async ({ anonymous, expect }) => {
+  const { response } = await anonymous.sdk.toots.createToot({
+    body: { content: `this is a toot` },
+  });
+  expect(response?.status).toBe(404);
+});
+
 test.describe("given an existing toot", () => {
   let toot: { id: string };
 
@@ -82,6 +89,14 @@ test.describe("given an existing toot", () => {
     });
   });
 
+  test(`anonymous can't comment on a toot`, async ({ anonymous, expect }) => {
+    const { response } = await anonymous.sdk.toots.comment({
+      path: { id: toot.id },
+      body: { content: `this is a comment` },
+    });
+    expect(response?.status).toBe(404);
+  });
+
   test(`likes a toot once`, async ({ user, expect }) => {
     await user.sdk.toots.like({ path: { id: toot.id } }).then(({ response }) => {
       expect(response?.status).toBe(204);
@@ -99,6 +114,13 @@ test.describe("given an existing toot", () => {
       });
 
     expect(detailedToot.likesCount).toBe(1);
+  });
+
+  test(`anonymous can't like a toot`, async ({ anonymous, expect }) => {
+    const { response } = await anonymous.sdk.toots.like({
+      path: { id: toot.id },
+    });
+    expect(response?.status).toBe(404);
   });
 
   test(`unlikes a toot`, async ({ user, expect }) => {
@@ -121,5 +143,12 @@ test.describe("given an existing toot", () => {
       });
 
     expect(updatedToot.likesCount).toBe(0);
+  });
+
+  test(`anonymous can't un-like a toot`, async ({ anonymous, expect }) => {
+    const { response } = await anonymous.sdk.toots.unlike({
+      path: { id: toot.id },
+    });
+    expect(response?.status).toBe(404);
   });
 });

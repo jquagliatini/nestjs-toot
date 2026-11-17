@@ -1,4 +1,8 @@
+import { inspect } from "node:util";
+
 import { InjectableHandler } from "@jqgl.cc/dispatchable";
+import { Transactional } from "@nestjs-cls/transactional";
+import { Logger } from "@nestjs/common";
 import { eq } from "drizzle-orm";
 
 import { articleLikes, articles, Db } from "#/modules/framework/database/schema.js";
@@ -8,10 +12,13 @@ import { tootQueries } from "./toot.query-bus.js";
 
 @InjectableHandler(tootQueries.ListToots)
 export class ListTootsQueryHandler {
+  private readonly logger = new Logger(ListTootsQueryHandler.name);
+
   constructor(private readonly db: Db) {}
 
+  @Transactional()
   async handle(query: typeof tootQueries.ListToots.$payload): typeof tootQueries.ListToots.$result {
-    const totalCount = await this.db.tx.$count(articles);
+    const totalCount = await this.countToots();
     const articleItems = await this.db.tx.query.articles.findMany({
       orderBy: { createdAt: "desc" },
       columns: {
@@ -48,5 +55,20 @@ export class ListTootsQueryHandler {
     });
 
     return paginate({ pagination: query.pagination, totalCount, items });
+  }
+
+  private async countToots(): Promise<number> {
+    const stats = await this.db.tx.query.tootStats
+      .findFirst({ columns: { count: true } })
+      .catch((err) => {
+        this.logger.warn(`error while counting toots ${inspect(err)}`);
+        return null;
+      });
+
+    if (!stats) {
+      return this.db.tx.$count(articles);
+    }
+
+    return stats.count;
   }
 }

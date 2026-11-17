@@ -7,6 +7,7 @@ import {
   articleLikes,
   articles,
   Db,
+  tootStats,
 } from "#/modules/framework/database/schema.js";
 
 import { Toot } from "../domain/toot.js";
@@ -38,6 +39,9 @@ export class TootsRepository {
 
   private async persistTootCreated({ id, authorId, content }: TootCreated): Promise<void> {
     await this.db.tx.insert(articles).values({ id, authorId, content });
+    await this.db.tx.update(tootStats).set({
+      count: sql`${tootStats.count} + 1`,
+    });
   }
 
   private async persistComment({ comment, id }: TootCommented): Promise<void> {

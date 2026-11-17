@@ -84,7 +84,12 @@ export const articleComments = snakeCase.table(
   ],
 );
 
-export const schema = { users, articles, articleComments, articleLikes, authSessions };
+export const tootStats = snakeCase.table("toot_stats", (t) => ({
+  id: t.bigint({ mode: "string" }).notNull().generatedAlwaysAsIdentity().primaryKey(),
+  count: t.bigint({ mode: "number" }).notNull().default(0),
+}));
+
+export const schema = { users, articles, articleComments, articleLikes, authSessions, tootStats };
 export const relations = defineRelations(schema, (r) => ({
   users: {
     articles: r.many.articles(),

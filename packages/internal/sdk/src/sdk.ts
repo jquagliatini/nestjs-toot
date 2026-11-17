@@ -3,7 +3,7 @@
 
 import { client } from './client.ts';
 import type { Client, ClientMeta, Options as Options2, RequestResult, TDataShape } from './client/index.ts';
-import type { DeleteApiTootsV1ByIdLikesData, DeleteApiTootsV1ByIdLikesResponses, GetApiAuthV1IntrospectData, GetApiAuthV1IntrospectResponses, GetApiTootsV1ByIdCommentsData, GetApiTootsV1ByIdCommentsResponses, GetApiTootsV1ByIdData, GetApiTootsV1ByIdResponses, GetApiTootsV1Data, GetApiTootsV1Responses, GetHealthData, GetHealthResponses, PostApiAuthV1SigninData, PostApiAuthV1SigninResponses, PostApiAuthV1SignupData, PostApiAuthV1SignupResponses, PostApiTootsV1ByIdCommentsData, PostApiTootsV1ByIdCommentsResponses, PostApiTootsV1Data, PostApiTootsV1Responses, PutApiTootsV1ByIdLikesData, PutApiTootsV1ByIdLikesResponses } from './types.ts';
+import type { DeleteApiTootsV1ByIdLikesData, DeleteApiTootsV1ByIdLikesResponses, GetApiAuthV1IntrospectData, GetApiAuthV1IntrospectResponses, GetApiTootsV1ByIdCommentsData, GetApiTootsV1ByIdCommentsResponses, GetApiTootsV1ByIdData, GetApiTootsV1ByIdResponses, GetApiTootsV1Data, GetApiTootsV1Responses, PostApiAuthV1SigninData, PostApiAuthV1SigninResponses, PostApiAuthV1SignupData, PostApiAuthV1SignupResponses, PostApiTootsV1ByIdCommentsData, PostApiTootsV1ByIdCommentsResponses, PostApiTootsV1Data, PostApiTootsV1Responses, PutApiTootsV1ByIdLikesData, PutApiTootsV1ByIdLikesResponses } from './types.ts';
 
 export type Options<TData extends TDataShape = TDataShape, ThrowOnError extends boolean = boolean, TResponse = unknown> = Options2<TData, ThrowOnError, TResponse> & {
     /**
@@ -44,12 +44,6 @@ class HeyApiRegistry<T> {
     
     set(value: T, key?: string): void {
         this.instances.set(key ?? this.defaultKey, value);
-    }
-}
-
-export class Health extends HeyApiClient {
-    public getHealth<ThrowOnError extends boolean = false>(options?: Options<GetHealthData, ThrowOnError>): RequestResult<GetHealthResponses, unknown, ThrowOnError> {
-        return (options?.client ?? this.client).get<GetHealthResponses, unknown, ThrowOnError>({ url: '/_health', ...options });
     }
 }
 
@@ -149,11 +143,6 @@ export class Sdk extends HeyApiClient {
     }) {
         super(args);
         Sdk.__registry.set(this, args?.key);
-    }
-    
-    private _health?: Health;
-    get health(): Health {
-        return this._health ??= new Health({ client: this.client });
     }
     
     private _auth?: Auth;

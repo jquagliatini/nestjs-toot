@@ -5,22 +5,6 @@ export type ClientOptions = {
     baseUrl: 'http://localhost:3000' | (string & {});
 };
 
-export type GetHealthData = {
-    body?: never;
-    path?: never;
-    query?: never;
-    url: '/_health';
-};
-
-export type GetHealthResponses = {
-    200: {
-        up: boolean;
-        db: boolean;
-    };
-};
-
-export type GetHealthResponse = GetHealthResponses[keyof GetHealthResponses];
-
 export type PostApiAuthV1SignupData = {
     body: {
         email: string;

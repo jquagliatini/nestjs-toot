@@ -53,6 +53,7 @@
     "@opentelemetry/api": "1.10.0",
     "@vitest/coverage-v8": "5.1.0",
     "drizzle-orm": "1.0.0-rc.5",
+    "intl-messageformat": "12.1.5",
     "nestjs-cls": "7.0.2",
     "pg": "8.23.1",
     "rxjs": "7.8.2",
